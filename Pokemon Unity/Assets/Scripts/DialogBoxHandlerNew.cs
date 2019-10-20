@@ -86,6 +86,7 @@ public class DialogBoxHandlerNew : MonoBehaviour
 
     public IEnumerator DrawText(string text, float secPerChar, bool silent)
     {
+        DrawDialogBox();
         string[] words = text.Split(new char[] {' '});
 
         if (!silent)
@@ -323,7 +324,8 @@ public class DialogBoxHandlerNew : MonoBehaviour
 
         choiceBox.gameObject.SetActive(true);
         choiceBox.sprite = Resources.Load<Sprite>("Frame/choice" + PlayerPrefs.GetInt("frameStyle"));
-        choiceBox.rectTransform.localPosition = new Vector3(171 - width - 1, yPosition - 96, 0);
+        choiceBox.rectTransform.localPosition = new Vector3(171 - width - 1, yPosition, 0);
+        //temporarily disabled
         choiceBox.rectTransform.sizeDelta = new Vector2(width, 16f + (14f * choices.Length));
         choiceBoxSelect.rectTransform.localPosition = new Vector3(8, 9f + (14f * startIndex), 0);
         choiceBoxText.rectTransform.sizeDelta = new Vector2(width - 30, choiceBox.rectTransform.sizeDelta.y);

@@ -11,6 +11,8 @@ public class MapSettings : MonoBehaviour
     public int mapBGMNightLoopStartSamples = 0;
     public string mapName;
     public Texture mapNameBoxTexture;
+    public string discordImageKey;
+    public string discordDetails;
     public Color mapNameColor = new Color(0.066f, 0.066f, 0.066f, 1);
 
     public enum PokemonRarity
@@ -301,7 +303,7 @@ public class MapSettings : MonoBehaviour
             string debugtext = "";
             for(int i = 0; i < chanceSplitList.Length; i++){
                 debugtext += PokemonDatabase.getPokemon(chanceSplitList[i].ID).getName() + ", ";}
-            Debug.Log(encounterIndex+": "+debugtext + "("+PokemonDatabase.getPokemon(chanceSplitList[encounterIndex].ID).getName()+")");
+            GlobalVariables.global.debug(encounterIndex+": "+debugtext + "("+PokemonDatabase.getPokemon(chanceSplitList[encounterIndex].ID).getName()+")");
             //*/
 
 

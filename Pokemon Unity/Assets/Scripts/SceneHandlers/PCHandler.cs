@@ -1081,8 +1081,8 @@ public class PCHandler : MonoBehaviour
         grabbedPokemonItem.enabled = false;
 
         running = true;
-        StartCoroutine("animateCursor");
-        StartCoroutine("animatePokemon");
+        StartCoroutine(animateCursor());
+        StartCoroutine(animatePokemon());
         yield return new WaitForSeconds(0.5f);
         while (running)
         {
@@ -1144,12 +1144,12 @@ public class PCHandler : MonoBehaviour
                     int chosenIndex = Dialog.chosenIndex;
                     if (chosenIndex == 3)
                     {
-                        Debug.Log("Jump not yet implemented");
+                        GlobalVariables.global.debug("Jump not yet implemented");
                         yield return new WaitForSeconds(0.2f);
                     }
                     else if (chosenIndex == 2)
                     {
-                        Debug.Log("Wallpaper not yet implemented");
+                        GlobalVariables.global.debug("Wallpaper not yet implemented");
                         yield return new WaitForSeconds(0.2f);
                     }
                     else if (chosenIndex == 1)
@@ -1206,7 +1206,7 @@ public class PCHandler : MonoBehaviour
                         Dialog.drawTextInstant("Continue Box operations?");
                         Dialog.drawChoiceBox();
                         yield return new WaitForSeconds(0.2f);
-                        yield return Dialog.StartCoroutine("choiceNavigate");
+                        yield return Dialog.StartCoroutine(Dialog.choiceNavigate());
                         Dialog.undrawChoiceBox();
                         Dialog.undrawDialogBox();
                         int chosenIndex = Dialog.chosenIndex;
@@ -1686,7 +1686,7 @@ public class PCHandler : MonoBehaviour
                         Dialog.drawTextInstant("Continue Box operations?");
                         Dialog.drawChoiceBox();
                         yield return new WaitForSeconds(0.2f);
-                        yield return Dialog.StartCoroutine("choiceNavigate");
+                        yield return Dialog.StartCoroutine(Dialog.choiceNavigate());
                         Dialog.undrawChoiceBox();
                         Dialog.undrawDialogBox();
                         int chosenIndex = Dialog.chosenIndex;
@@ -2238,7 +2238,7 @@ public class PCHandler : MonoBehaviour
                         Dialog.drawTextInstant("Continue Box operations?");
                         Dialog.drawChoiceBox();
                         yield return new WaitForSeconds(0.2f);
-                        yield return Dialog.StartCoroutine("choiceNavigate");
+                        yield return Dialog.StartCoroutine(Dialog.choiceNavigate());
                         Dialog.undrawChoiceBox();
                         Dialog.undrawDialogBox();
                         int chosenIndex = Dialog.chosenIndex;
@@ -2340,7 +2340,7 @@ public class PCHandler : MonoBehaviour
                             Dialog.drawTextInstant("Continue Box operations?");
                             Dialog.drawChoiceBox();
                             yield return new WaitForSeconds(0.2f);
-                            yield return Dialog.StartCoroutine("choiceNavigate");
+                            yield return Dialog.StartCoroutine(Dialog.choiceNavigate());
                             Dialog.undrawChoiceBox();
                             Dialog.undrawDialogBox();
                             int chosenIndex = Dialog.chosenIndex;
@@ -2380,7 +2380,7 @@ public class PCHandler : MonoBehaviour
                         Dialog.drawTextInstant("Continue Box operations?");
                         Dialog.drawChoiceBox();
                         yield return new WaitForSeconds(0.2f);
-                        yield return Dialog.StartCoroutine("choiceNavigate");
+                        yield return Dialog.StartCoroutine(Dialog.choiceNavigate());
                         Dialog.undrawChoiceBox();
                         Dialog.undrawDialogBox();
                         int chosenIndex = Dialog.chosenIndex;

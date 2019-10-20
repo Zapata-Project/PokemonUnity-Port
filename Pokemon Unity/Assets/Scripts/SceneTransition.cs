@@ -175,7 +175,7 @@ public class SceneTransition : MonoBehaviour
         increment = 0;
         fadingOut = false;
         fading = true;
-        StartCoroutine("fade", speed);
+        StartCoroutine(fade(speed));
         GlobalVariables.global.fadeIn = false;
         return speed;
     }
@@ -198,7 +198,7 @@ public class SceneTransition : MonoBehaviour
         increment = 0;
         fadingOut = true;
         fading = true;
-        StartCoroutine("fade", speed);
+        StartCoroutine(fade(speed));
         GlobalVariables.global.fadeIn = true;
         return speed;
     }

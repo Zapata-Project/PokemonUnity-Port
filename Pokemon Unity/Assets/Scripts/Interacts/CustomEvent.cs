@@ -50,8 +50,33 @@ public class CustomEvent : MonoBehaviour
         if (treesArray.Length > 0)
         {
             eventTreeIndex = 0;
-            if (PlayerMovement.player.setCheckBusyWith(this.gameObject))
-            {
+            if(PlayerMovement.player) {
+                if (PlayerMovement.player.setCheckBusyWith(this.gameObject))
+                {
+                    setThisNPCHandlerBusy(true);
+
+                    for (currentEventIndex = 0;
+                        currentEventIndex < treesArray[eventTreeIndex].events.Length;
+                        currentEventIndex++)
+                    {
+                        if (!treesArray[eventTreeIndex].events[currentEventIndex].runSimultaneously)
+                        {
+                            yield return StartCoroutine(runEvent(treesArray, currentEventIndex));
+                        }
+                        else
+                        {
+                            StartCoroutine(runEvent(treesArray, currentEventIndex));
+                        }
+                    }
+
+                    setThisNPCHandlerBusy(false);
+                    PlayerMovement.player.unsetCheckBusyWith(this.gameObject);
+                }
+                if (deactivateOnFinish)
+                {
+                    this.gameObject.SetActive(false);
+                }
+            } else {
                 setThisNPCHandlerBusy(true);
 
                 for (currentEventIndex = 0;
@@ -69,11 +94,10 @@ public class CustomEvent : MonoBehaviour
                 }
 
                 setThisNPCHandlerBusy(false);
-                PlayerMovement.player.unsetCheckBusyWith(this.gameObject);
-            }
-            if (deactivateOnFinish)
-            {
-                this.gameObject.SetActive(false);
+                if (deactivateOnFinish)
+                {
+                    this.gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -92,7 +116,7 @@ public class CustomEvent : MonoBehaviour
 
         CustomEventDetails.CustomEventType ty = currentEvent.eventType;
 
-        Debug.Log("Run event. Type: " + ty.ToString());
+        GlobalVariables.global.debug("Run event. Type: " + ty.ToString());
 
         switch (ty)
         {
@@ -473,7 +497,7 @@ public class CustomEvent : MonoBehaviour
                         }
                     }
 
-                    Debug.Log(pkMoveset[0] + ", " + pkMoveset[1] + ", " + pkMoveset[2] + ", " + pkMoveset[3]);
+                    GlobalVariables.global.debug(pkMoveset[0] + ", " + pkMoveset[1] + ", " + pkMoveset[2] + ", " + pkMoveset[3]);
 
 
                     Pokemon pk = new Pokemon(currentEvent.ints[0], nickname, pkGender, currentEvent.ints[1],
@@ -619,7 +643,7 @@ public class CustomEvent : MonoBehaviour
 
                 if (trainer.battleBGM != null)
                 {
-                    Debug.Log(trainer.battleBGM.name);
+                    GlobalVariables.global.debug(trainer.battleBGM.name);
                     BgmHandler.main.PlayOverlay(trainer.battleBGM, trainer.samplesLoopStart);
                 }
                 else
@@ -654,6 +678,9 @@ public class CustomEvent : MonoBehaviour
                     }
                 }
 
+                break;
+            case CustomEventDetails.CustomEventType.TeleportGameObject:
+                currentEvent.object0.transform.position = currentEvent.vector3;
                 break;
         }
     }
@@ -704,7 +731,8 @@ public class CustomEventDetails
         SetActive, //object0: game object to activate
         SetCVariable, //string0: CVariable name | float0: new value
         LogicCheck, //logic | float0: check value | string0: CVariable name
-        TrainerBattle //object0: trainer script | bool0: allowed to lose | int0: tree to jump to on loss
+        TrainerBattle, //object0: trainer script | bool0: allowed to lose | int0: tree to jump to on loss
+        TeleportGameObject //object0: game object | vector3: teleport position
     }
 
     public enum Direction
@@ -749,6 +777,8 @@ public class CustomEventDetails
 
 
     public bool runSimultaneously;
+
+    public Vector3 vector3;
 }
 
 [System.Serializable]

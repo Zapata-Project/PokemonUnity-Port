@@ -117,7 +117,7 @@ public class SettingsHandler : MonoBehaviour
         DialogBoxTextShadow.text = "";
     }
 
-    public IEnumerator drawText(string textLine)
+    public IEnumerator drawText(string textLine = "")
     {
         int textSpeed = PlayerPrefs.GetInt("textSpeed") + 1;
         float charPerSec = 16 + (textSpeed * textSpeed * 9);
@@ -437,7 +437,7 @@ public class SettingsHandler : MonoBehaviour
     {
         //sceneTransition.FadeIn();
         StartCoroutine(ScreenFade.main.Fade(true, ScreenFade.defaultSpeed));
-
+        Coroutine draw = null;
         running = true;
         loadSettings();
         int[] originalIndexes = new int[]
@@ -467,14 +467,14 @@ public class SettingsHandler : MonoBehaviour
                     drawDialogBox();
                     if (selectedOption == 0)
                     {
-                        StartCoroutine("drawText", selectedOptionText[selectedOption]);
+                        draw = StartCoroutine(drawText(selectedOptionText[selectedOption]));
                     }
                     else
                     {
                         drawTextInstant(selectedOptionText[selectedOption]);
                     }
                     SfxHandler.Play(selectClip);
-                    yield return StartCoroutine("moveSelection", 1);
+                    yield return StartCoroutine(moveSelection(1));
                 }
             }
             else if (Input.GetAxisRaw("Vertical") < 0)
@@ -482,11 +482,12 @@ public class SettingsHandler : MonoBehaviour
                 if (selectedOption < 7)
                 {
                     selectedOption += 1;
-                    StopCoroutine("drawText");
+                    if (draw != null)
+                        StopCoroutine(draw);
                     drawDialogBox();
                     drawTextInstant(selectedOptionText[selectedOption]);
                     SfxHandler.Play(selectClip);
-                    yield return StartCoroutine("moveSelection", -1);
+                    yield return StartCoroutine(moveSelection(-1));
                 }
             }
             else if (Input.GetAxisRaw("Horizontal") > 0)
@@ -530,9 +531,10 @@ public class SettingsHandler : MonoBehaviour
                         updateOption();
                         if (selectedOption == 0)
                         {
-                            StopCoroutine("drawText");
+                            if (draw != null)
+                                StopCoroutine(draw);
                             drawDialogBox();
-                            StartCoroutine("drawText", selectedOptionText[selectedOption]);
+                            draw = StartCoroutine(drawText(selectedOptionText[selectedOption]));
                         }
                         yield return new WaitForSeconds(0.2f);
                     }
@@ -579,9 +581,10 @@ public class SettingsHandler : MonoBehaviour
                         updateOption();
                         if (selectedOption == 0)
                         {
-                            StopCoroutine("drawText");
+                            if (draw != null)
+                                StopCoroutine(draw);
                             drawDialogBox();
-                            StartCoroutine("drawText", selectedOptionText[selectedOption]);
+                            draw = StartCoroutine(drawText(selectedOptionText[selectedOption]));
                         }
                         yield return new WaitForSeconds(0.2f);
                     }
@@ -589,11 +592,14 @@ public class SettingsHandler : MonoBehaviour
             }
             else if (Input.GetButton("Back"))
             {
-                Dialog.drawDialogBox();
-                yield return
-                    Dialog.StartCoroutine(Dialog.drawText( "Would you like to save the currently \\selected settings?"));
+                if (draw != null)
+                    StopCoroutine(draw);
+                drawDialogBox();
+                draw = StartCoroutine(drawText(selectedOptionText[selectedOption]));
+                yield return draw;
                 Dialog.drawChoiceBoxNo();
                 yield return new WaitForSeconds(0.2f);
+                //set cursor to 'no'
                 yield return StartCoroutine(Dialog.choiceNavigate(0));
                 int chosenIndex = Dialog.chosenIndex;
                 if (chosenIndex == 1)

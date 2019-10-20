@@ -17,7 +17,7 @@ public class Scene : MonoBehaviour
     public SummaryHandler Summary;
     public TrainerHandler Trainer;
     public TypingHandler Typing;
-
+    public PauseHandlerNew PauseNew;
 
     void Awake()
     {
@@ -36,5 +36,6 @@ public class Scene : MonoBehaviour
         Summary.gameObject.SetActive(true);
         Trainer.gameObject.SetActive(true);
         Typing.gameObject.SetActive(true);
+        PauseNew.gameObject.SetActive(true);
     }
 }

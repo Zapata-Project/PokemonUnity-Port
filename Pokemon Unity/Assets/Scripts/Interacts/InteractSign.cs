@@ -10,6 +10,7 @@ public class InteractSign : MonoBehaviour
     public string signText;
     public Color signTint = new Color(0.5f, 0.5f, 0.5f, 1f);
     public DialogBoxHandler.PrintTextMethod printTextMethod = DialogBoxHandler.PrintTextMethod.Typewriter;
+    public int direction;
 
     // Use this for initialization
     void Awake()
@@ -32,12 +33,20 @@ public class InteractSign : MonoBehaviour
             }
 
             yield return null;
-
-            while (!Input.GetButtonDown("Select") && !Input.GetButtonDown("Back") &&
+            if(direction == 0) {
+                while (!Input.GetButtonDown("Select") && !Input.GetButtonDown("Back") &&
                    Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") >= 0)
-            {
-                yield return null;
+                {
+                    yield return null;
+                }
+            } else if(direction == 1) {
+                while (!Input.GetButtonDown("Select") && !Input.GetButtonDown("Back") &&
+                   Input.GetAxisRaw("Horizontal") >= 0 && Input.GetAxisRaw("Vertical") == 0)
+                {
+                    yield return null;
+                }
             }
+            
 
             StartCoroutine(Dialog.undrawSignBox());
 
@@ -48,7 +57,7 @@ public class InteractSign : MonoBehaviour
 
     public IEnumerator bump()
     {
-        if (PlayerMovement.player.direction == 0)
+        if (PlayerMovement.player.direction == direction)
         {
             yield return StartCoroutine(interact());
         }

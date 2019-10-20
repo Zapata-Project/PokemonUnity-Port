@@ -1,4 +1,4 @@
-﻿/*using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -37,7 +37,8 @@ public class CustomEventEditor : Editor
         object0_Prop,
         object1_Prop,
         sound_Prop,
-        runSimul_Prop;
+        runSimul_Prop,
+        vector3_Prop;
 
     private bool interactUnfold = false;
     private bool[] interactTreesUnfold = new bool[1];
@@ -281,6 +282,7 @@ public class CustomEventEditor : Editor
         object1_Prop = currentSEvent.FindPropertyRelative("object1");
         sound_Prop = currentSEvent.FindPropertyRelative("sound");
         runSimul_Prop = currentSEvent.FindPropertyRelative("runSimultaneously");
+        vector3_Prop = currentSEvent.FindPropertyRelative("vector3");
     }
 
     private string GetEventDescription(SerializedProperty currentSEvent)
@@ -385,9 +387,10 @@ public class CustomEventEditor : Editor
                 break;
 
             case CustomEventDetails.CustomEventType.ReceivePokemon:
-                eventDescription = "Receive a Lv. " + ints_Prop.GetArrayElementAtIndex(1).intValue + " \"";
-                PokemonDataOld pkd = PokemonDatabaseOld.getPokemon(ints_Prop.GetArrayElementAtIndex(0).intValue);
-                eventDescription += (pkd != null) ? pkd.getName() : "null";
+                eventDescription = "NOT CURRENTLY FUNCTIONAL AWAITING FIX";
+                //eventDescription = "Receive a Lv. " + ints_Prop.GetArrayElementAtIndex(1).intValue + " \"";
+                //PokemonDataOld pkd = PokemonDatabaseOld.getPokemon(ints_Prop.GetArrayElementAtIndex(0).intValue);
+                //eventDescription += (pkd != null) ? pkd.getName() : "null";
                 eventDescription += "\" or Jump to " + int0_Prop.intValue + ".";
                 break;
 
@@ -457,8 +460,14 @@ public class CustomEventEditor : Editor
                     eventDescription += ", Jump To " + int0_Prop.intValue + " on Loss";
                 }
                 break;
+            case CustomEventDetails.CustomEventType.TeleportGameObject:
+                eventDescription = "Teleport ";
+                eventDescription += (object0_Prop.objectReferenceValue != null)
+                    ? "\" " + object0_Prop.objectReferenceValue.name + "\" to "+vector3_Prop.vector3Value.x.ToString()+"X "+vector3_Prop.vector3Value.y.ToString()+"Y "+vector3_Prop.vector3Value.z.ToString()+"Z"
+                    : "\"null\" to "+vector3_Prop.vector3Value.x.ToString()+"X "+vector3_Prop.vector3Value.y.ToString()+"Y "+vector3_Prop.vector3Value.z.ToString()+"Z";
+                break;
 
-            case CustomEventDetails.CustomEventType.ReturnToTitle:
+            /*case CustomEventDetails.CustomEventType.ReturnToTitle:
 			    eventDescription = "Return to Title Screen";
 			    break;
 
@@ -468,7 +477,7 @@ public class CustomEventEditor : Editor
 
 		    case CustomEventDetails.CustomEventType.MoveCamera:
 			    eventDescription = "Move camera to "+ints_Prop.GetArrayElementAtIndex(0).intValue+", "+ints_Prop.GetArrayElementAtIndex(1).intValue+", "+ints_Prop.GetArrayElementAtIndex(2).intValue+"";;
-			    break;
+			    break;*/
         }
 
 
@@ -597,7 +606,7 @@ public class CustomEventEditor : Editor
 
                 ints_Prop.GetArrayElementAtIndex(0).intValue = EditorGUILayout.IntField(new GUIContent("Pokemon ID"),
                     ints_Prop.GetArrayElementAtIndex(0).intValue);
-                PokemonDataOld pkd = PokemonDatabaseOld.getPokemon(ints_Prop.GetArrayElementAtIndex(0).intValue);
+                /*PokemonDataOld pkd = PokemonDatabaseOld.getPokemon(ints_Prop.GetArrayElementAtIndex(0).intValue);
                 string pokemonName = (pkd != null) ? pkd.getName() : "null";
                 EditorGUILayout.LabelField(new GUIContent(" "), new GUIContent(pokemonName));
                 EditorGUILayout.Space();
@@ -634,7 +643,7 @@ public class CustomEventEditor : Editor
                 else
                 {
                     EditorGUILayout.LabelField(new GUIContent("Gender"));
-                }
+                }*/
                 EditorGUILayout.PropertyField(bool0_Prop, new GUIContent("Is Shiny"));
                 strings_Prop.GetArrayElementAtIndex(1).stringValue =
                     EditorGUILayout.TextField(new GUIContent("Original Trainer"),
@@ -660,7 +669,7 @@ public class CustomEventEditor : Editor
                 ints_Prop.GetArrayElementAtIndex(3).intValue = EditorGUILayout.Popup(new GUIContent("Nature"),
                     ints_Prop.GetArrayElementAtIndex(3).intValue, natures);
                 //Ability
-                if (pkd != null)
+                /*if (pkd != null)
                 {
                     ints_Prop.GetArrayElementAtIndex(4).intValue = EditorGUILayout.Popup(new GUIContent("Ability"),
                         ints_Prop.GetArrayElementAtIndex(4).intValue, new GUIContent[]
@@ -670,9 +679,9 @@ public class CustomEventEditor : Editor
                         });
                 }
                 else
-                {
+                {/* */
                     EditorGUILayout.LabelField(new GUIContent("Ability"));
-                }
+                //}
 
                 EditorGUILayout.Space();
 
@@ -719,8 +728,11 @@ public class CustomEventEditor : Editor
                     int0_Prop.intValue = EditorGUILayout.IntField(new GUIContent("Jump To on Loss"), int0_Prop.intValue);
                 }
                 break;
-
-            case CustomEventDetails.CustomEventType.JumpTo:
+            case CustomEventDetails.CustomEventType.TeleportGameObject:
+                EditorGUILayout.PropertyField(object0_Prop, new GUIContent("Game Object"));
+                EditorGUILayout.PropertyField(vector3_Prop, new GUIContent("Vector3"));
+                break;
+            /*case CustomEventDetails.CustomEventType.JumpTo:
 			    EditorGUILayout.PropertyField( int0_Prop, new GUIContent("Jump to Tree:") );
 			    break;
 
@@ -731,7 +743,7 @@ public class CustomEventEditor : Editor
                 EditorGUILayout.PropertyField(ints_Prop.GetArrayElementAtIndex(1), new GUIContent("Y"));
                 EditorGUILayout.PropertyField(ints_Prop.GetArrayElementAtIndex(2), new GUIContent("Z"));
                 EditorGUILayout.PropertyField(float0_Prop, new GUIContent("Speed"));
-			    break;
+			    break;*/
         }
 
         // Draw a line 
@@ -770,4 +782,4 @@ public class CustomEventEditor : Editor
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space();
     }
-}*/
+}

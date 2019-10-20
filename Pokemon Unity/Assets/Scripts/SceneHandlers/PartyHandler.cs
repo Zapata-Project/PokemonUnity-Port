@@ -57,7 +57,7 @@ public class PartyHandler : MonoBehaviour
     private int swapPosition = -1;
     private bool running = false;
     private bool switching = false;
-
+    private Coroutine animIcons = null;
     void Awake()
     {
         Dialog = transform.GetComponent<DialogBoxHandler>();
@@ -483,7 +483,7 @@ public class PartyHandler : MonoBehaviour
         updateFrames();
         Dialog.drawDialogBox();
         Dialog.drawTextInstant("Choose a Pokémon.");
-        StartCoroutine("animateIcons");
+        animIcons = StartCoroutine(animateIcons());
         while (running)
         {
             if (Input.GetAxisRaw("Horizontal") > 0)
@@ -827,7 +827,8 @@ public class PartyHandler : MonoBehaviour
             }
             yield return null;
         }
-        StopCoroutine(animateIcons());
+        if (animIcons != null)
+        StopCoroutine(animIcons);
         //yield return new WaitForSeconds(sceneTransition.FadeOut());
         yield return StartCoroutine(ScreenFade.main.Fade(false, ScreenFade.defaultSpeed));
         GlobalVariables.global.resetFollower();

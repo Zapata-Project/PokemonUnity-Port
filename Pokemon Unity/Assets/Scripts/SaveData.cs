@@ -21,9 +21,12 @@ public class SaveData
 
     //Important player data
     public string playerName;
+    public bool debugMode = false;
     public bool isMale;
     public int playerID;
     public string fileCreationDate;
+    public System.DateTime? lastSave;
+    public System.DateTime startTime = new System.DateTime();
 
     public string mapName;
 
@@ -37,14 +40,19 @@ public class SaveData
 
     public int playerScore;
     public int playerMoney;
+    public int pokeDex; //pokedex not implemented
 
     public int playerHours;
     public int playerMinutes;
     public int playerSeconds;
 
     public bool[] gymsEncountered = new bool[12];
+    /// <summary>
+    /// if <see cref="gymsBeatTime"/> is null, then value is false.
+    /// </summary>
+    /// <remarks>This isnt needed...</remarks>
     public bool[] gymsBeaten = new bool[12];
-    public string[] gymsBeatTime = new string[12];
+    public System.DateTime?[] gymsBeatTime = new System.DateTime?[12];
 
 
     //Important gameplay data
@@ -112,11 +120,9 @@ public class SaveData
             }
             else if (cVariableArray[i].name == null)
             {
-                Debug.Log("Error: Variable Not Found!");
                 return -1;
             }
         }
-        Debug.Log("Error: Variable Not Found!");
         return -1;
     }
 
@@ -136,7 +142,7 @@ public class SaveData
         if (index == -1)
         {
             cVariables.Add(new CVariable(variableName, newValue));
-            Debug.Log("Added New Variable!");
+            GlobalVariables.global.debug("Added New Variable!");
         }
         else
         {

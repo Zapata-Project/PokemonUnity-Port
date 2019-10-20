@@ -64,7 +64,7 @@ public class InteractPC : MonoBehaviour
                 spriteLight.enabled = true;
                 PClight.enabled = true;
                 SfxHandler.Play(onClip);
-                yield return StartCoroutine("onAnim");
+                yield return StartCoroutine(onAnim());
                 Dialog.drawDialogBox();
                 yield return Dialog.StartCoroutine(Dialog.drawTextSilent( SaveData.currentSave.playerName + " turned on the PC!"));
                 while (!Input.GetButtonDown("Select") && !Input.GetButtonDown("Back"))
@@ -77,7 +77,7 @@ public class InteractPC : MonoBehaviour
                     Dialog.drawDialogBox();
                     yield return Dialog.StartCoroutine(Dialog.drawText( "Which PC should be accessed?"));
                     Dialog.drawChoiceBox(new string[] {"Someone's", "Switch off"});
-                    yield return Dialog.StartCoroutine("choiceNavigate");
+                    yield return Dialog.StartCoroutine(Dialog.choiceNavigate());
                     Dialog.undrawChoiceBox();
                     accessedPC = Dialog.chosenIndex;
                     int accessedBox = -1;

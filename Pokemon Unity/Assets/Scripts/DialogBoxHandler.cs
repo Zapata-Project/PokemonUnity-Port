@@ -417,7 +417,61 @@ public class DialogBoxHandler : MonoBehaviour
         }
     }
 
-   
+   public IEnumerator choiceNavigateNo()
+    {
+        //For when No needs to be default;
+        chosenIndex = 0;
+        bool selected = false;
+        while (!selected)
+        {
+            if (Input.GetButtonDown("Select"))
+            {
+                selected = true;
+            }
+            else if (Input.GetButtonDown("Back"))
+            {
+                while (chosenIndex > 0)
+                {
+                    chosenIndex -= 1;
+                    ChoiceBoxSelect.pixelInset = new Rect(ChoiceBoxSelect.pixelInset.x,
+                        ChoiceBoxSelect.pixelInset.y - 14f, ChoiceBoxSelect.pixelInset.width,
+                        ChoiceBoxSelect.pixelInset.height);
+                }
+                SfxHandler.Play(selectClip);
+                yield return new WaitForSeconds(0.2f);
+                selected = true;
+            }
+            else
+            {
+                if (chosenIndex < 1)
+                {
+                    if (Input.GetAxisRaw("Vertical") > 0)
+                    {
+                        chosenIndex += 1;
+                        ChoiceBoxSelect.pixelInset = new Rect(ChoiceBoxSelect.pixelInset.x,
+                            ChoiceBoxSelect.pixelInset.y + 14f, ChoiceBoxSelect.pixelInset.width,
+                            ChoiceBoxSelect.pixelInset.height);
+                        SfxHandler.Play(selectClip);
+                        yield return new WaitForSeconds(0.2f);
+                    }
+                }
+                if (chosenIndex > 0)
+                {
+                    if (Input.GetAxisRaw("Vertical") < 0)
+                    {
+                        chosenIndex -= 1;
+                        ChoiceBoxSelect.pixelInset = new Rect(ChoiceBoxSelect.pixelInset.x,
+                            ChoiceBoxSelect.pixelInset.y - 14f, ChoiceBoxSelect.pixelInset.width,
+                            ChoiceBoxSelect.pixelInset.height);
+                        SfxHandler.Play(selectClip);
+                        yield return new WaitForSeconds(0.2f);
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
     public IEnumerator choiceNavigate(string[] choices)
     {
         chosenIndex = choices.Length - 1; //0 is the vertically lowest choice

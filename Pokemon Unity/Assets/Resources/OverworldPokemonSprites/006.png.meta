@@ -18,14 +18,17 @@ TextureImporter:
     21300026: 006_5
     21300028: 006_6
     21300030: 006_7
-  serializedVersion: 2
+  externalObjects: {}
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -34,37 +37,59 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
   maxTextureSize: 128
   textureSettings:
+    serializedVersion: 2
     filterMode: 0
     aniso: 1
-    mipBias: -1
-    wrapMode: 1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 128
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: 006_0
+    - serializedVersion: 2
+      name: 006_0
       rect:
         serializedVersion: 2
         x: 0
@@ -74,17 +99,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -4, y: 28}
-        - {x: -11, y: 25}
-        - {x: -16, y: 19}
-        - {x: -16, y: 6}
-        - {x: -11, y: 0}
-        - {x: 7, y: 0}
-        - {x: 16, y: 3}
-        - {x: 16, y: 14}
-        - {x: 6, y: 28}
-    - name: 006_1
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6ff993603e81634c81ee42b010257eb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 006_1
       rect:
         serializedVersion: 2
         x: 32
@@ -94,19 +119,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 3, y: 28}
-        - {x: -7, y: 28}
-        - {x: -14, y: 15}
-        - {x: -14, y: 3}
-        - {x: -8, y: 0}
-        - {x: 6, y: 0}
-        - {x: 14, y: 3}
-        - {x: 14, y: 11}
-        - {x: 13, y: 14}
-        - {x: 9, y: 22}
-        - {x: 5, y: 27}
-    - name: 006_2
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc81aa7c4f028e34ea06033192189a33
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 006_2
       rect:
         serializedVersion: 2
         x: 0
@@ -116,16 +139,17 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.6, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -14.200001, y: 27}
-        - {x: -19.2, y: 25}
-        - {x: -19.2, y: 5}
-        - {x: -11.200001, y: 0}
-        - {x: 3.7999992, y: 0}
-        - {x: 11.799999, y: 15}
-        - {x: 11.799999, y: 23}
-        - {x: 4.799999, y: 27}
-    - name: 006_3
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b3b0019fe47c4349810ec9fe175bbd1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 006_3
       rect:
         serializedVersion: 2
         x: 32
@@ -135,19 +159,17 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.6, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -13.200001, y: 27}
-        - {x: -16.2, y: 24}
-        - {x: -19.2, y: 16}
-        - {x: -19.2, y: 10}
-        - {x: -17.2, y: 6}
-        - {x: -13.200001, y: 2}
-        - {x: -7.200001, y: 0}
-        - {x: 1.7999992, y: 0}
-        - {x: 11.799999, y: 11}
-        - {x: 11.799999, y: 23}
-        - {x: 1.7999992, y: 27}
-    - name: 006_4
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9082c5d94c76ad418ef194f30d06b9e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 006_4
       rect:
         serializedVersion: 2
         x: 0
@@ -157,19 +179,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 5, y: 28}
-        - {x: -6, y: 28}
-        - {x: -15, y: 17}
-        - {x: -16, y: 14}
-        - {x: -16, y: 10}
-        - {x: -6, y: 1}
-        - {x: 2, y: 0}
-        - {x: 7, y: 0}
-        - {x: 15, y: 8}
-        - {x: 16, y: 10}
-        - {x: 16, y: 16}
-    - name: 006_5
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cd98d43e21f52f46a2f585f5c8eac4b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 006_5
       rect:
         serializedVersion: 2
         x: 32
@@ -179,17 +199,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -7, y: 28}
-        - {x: -16, y: 23}
-        - {x: -16, y: 16}
-        - {x: -8, y: 0}
-        - {x: 5, y: 0}
-        - {x: 12, y: 1}
-        - {x: 16, y: 8}
-        - {x: 16, y: 22}
-        - {x: 11, y: 28}
-    - name: 006_6
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fd58b71d71fc4445801061c7b1574c4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 006_6
       rect:
         serializedVersion: 2
         x: 0
@@ -199,18 +219,17 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 9.2, y: 27}
-        - {x: 2.1999998, y: 27}
-        - {x: -10.8, y: 24}
-        - {x: -11.8, y: 20}
-        - {x: -11.8, y: 9}
-        - {x: -8.8, y: 1}
-        - {x: -2.8000002, y: 0}
-        - {x: 19.2, y: 0}
-        - {x: 19.2, y: 19}
-        - {x: 18.2, y: 20}
-    - name: 006_7
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f28c294b94a285849ae2093f66d90fa9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 006_7
       rect:
         serializedVersion: 2
         x: 32
@@ -220,19 +239,26 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -5.799999, y: 27}
-        - {x: -11.799999, y: 23}
-        - {x: -11.799999, y: 10}
-        - {x: -8.799999, y: 2}
-        - {x: -1.7999992, y: 0}
-        - {x: 7.200001, y: 0}
-        - {x: 13.200001, y: 1}
-        - {x: 19.2, y: 6}
-        - {x: 19.2, y: 21}
-        - {x: 14.200001, y: 27}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25ac6fa3358e11b49afb02f8040e3a56
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

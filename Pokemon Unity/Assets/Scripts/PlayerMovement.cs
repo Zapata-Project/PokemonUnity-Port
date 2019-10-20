@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     private int mostRecentDirectionPressed = 0;
     private float directionChangeInputDelay = 0.08f;
 
-//	private SceneTransition sceneTransition;
+    //	private SceneTransition sceneTransition;
 
     private AudioSource PlayerAudio;
 
@@ -123,7 +123,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         updateAnimation("walk", walkFPS);
-        StartCoroutine("animateSprite");
+        #if UNITY_STANDALONE_WIN
+        if(SaveData.currentSave.getCVariable("female") == 0) {
+            GlobalVariables.global.SetRPCSmallImageKey("m_"+SaveData.currentSave.playerOutfit,SaveData.currentSave.playerName);
+        }
+        else {
+            GlobalVariables.global.SetRPCSmallImageKey("f_"+SaveData.currentSave.playerOutfit,SaveData.currentSave.playerName);
+        }
+        #endif
+        StartCoroutine(animateSprite());
         animPause = true;
 
         reflect(false);
@@ -159,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Debug.Log("no map found");
+                GlobalVariables.global.debug("no map found");
             }
         }
 
@@ -207,7 +215,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 pkmnNames += PokemonDatabase.getPokemon(encounter.ID).getName() + ", ";
             }
-            Debug.Log("Wild Pokemon for map \"" + accessedMapSettings.mapName + "\": " + pkmnNames);
+            GlobalVariables.global.debug("Wild Pokemon for map \"" + accessedMapSettings.mapName + "\": " + pkmnNames);
+            /*if(GlobalVariables.global.presence.largeImageKey != accessedMapSettings.discordImageKey || accessedMapSettings.discordDetails != "")
+            {
+                if(GlobalVariables.global.presence.largeImageKey != accessedMapSettings.discordImageKey)
+                    GlobalVariables.global.SetRPCLargeImageKey(accessedMapSettings.discordImageKey, accessedMapSettings.mapName);
+                if(accessedMapSettings.discordDetails != "")
+                    GlobalVariables.global.SetRPCDetails(accessedMapSettings.discordDetails);
+                GlobalVariables.global.UpdatePresence();
+            }*/
         }
         //
 
@@ -218,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
     {
         closestIndex = -1;
         float closestDist = closestDistance = float.PositiveInfinity;
-        
+
         foreach(RaycastHit hitRay in hitRays.Where(x => x.collider.gameObject.GetComponent<MapCollider>() != null && x.distance < closestDist))
         {
             closestDistance = hitRay.distance;
@@ -233,12 +249,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetAxisRaw("Horizontal") > 0)
             {
-                //	Debug.Log("NEW INPUT: Right");
+                //	GlobalVariables.global.debug("NEW INPUT: Right");
                 mostRecentDirectionPressed = 1;
             }
             else if (Input.GetAxisRaw("Horizontal") < 0)
             {
-                //	Debug.Log("NEW INPUT: Left");
+                //	GlobalVariables.global.debug("NEW INPUT: Left");
                 mostRecentDirectionPressed = 3;
             }
         }
@@ -246,18 +262,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetAxisRaw("Vertical") > 0)
             {
-                //	Debug.Log("NEW INPUT: Up");
+                //	GlobalVariables.global.debug("NEW INPUT: Up");
                 mostRecentDirectionPressed = 0;
             }
             else if (Input.GetAxisRaw("Vertical") < 0)
             {
-                //	Debug.Log("NEW INPUT: Down");
+                //	GlobalVariables.global.debug("NEW INPUT: Down");
                 mostRecentDirectionPressed = 2;
             }
         }
     }
 
-    private bool isDirectionKeyHeld(int directionCheck)
+     private bool isDirectionKeyHeld(int directionCheck)
     {
         if ((directionCheck == 0 && Input.GetAxisRaw("Vertical") > 0) ||
             (directionCheck == 1 && Input.GetAxisRaw("Horizontal") > 0) ||
@@ -275,7 +291,7 @@ public class PlayerMovement : MonoBehaviour
         while (true)
         {
             still = true;
-                //the player is still, but if they've just finished moving a space, moving is still true for this frame (see end of coroutine)
+            //the player is still, but if they've just finished moving a space, moving is still true for this frame (see end of coroutine)
             if (canInput)
             {
                 if (!surfing && !bike)
@@ -305,16 +321,17 @@ public class PlayerMovement : MonoBehaviour
                     //open Pause Menu
                     if (moving || Input.GetButtonDown("Start"))
                     {
-                        if (setCheckBusyWith(Scene.main.Pause.gameObject))
+                        if (setCheckBusyWith(Scene.main.PauseNew.gameObject))
                         {
                             animPause = true;
-                            Scene.main.Pause.gameObject.SetActive(true);
-                            StartCoroutine(Scene.main.Pause.control());
-                            while (Scene.main.Pause.gameObject.activeSelf)
+                            Scene.main.PauseNew.gameObject.SetActive(true);
+                            StartCoroutine(Scene.main.PauseNew.control());
+                            yield return new WaitForSeconds(1f);
+                            while (Scene.main.PauseNew.running)
                             {
                                 yield return null;
                             }
-                            unsetCheckBusyWith(Scene.main.Pause.gameObject);
+                            unsetCheckBusyWith(Scene.main.PauseNew.gameObject);
                         }
                     }
                 }
@@ -395,10 +412,10 @@ public class PlayerMovement : MonoBehaviour
                 else if (Input.GetKeyDown("g"))
                 {
                     //DEBUG
-                    Debug.Log(currentMap.getTileTag(transform.position));
+                    GlobalVariables.global.debug(currentMap.getTileTag(transform.position).ToString());
                     if (followerScript.canMove)
                     {
-                        followerScript.StartCoroutine("withdrawToBall");
+                        followerScript.StartCoroutine(followerScript.withdrawToBall());
                     }
                     else
                     {
@@ -420,8 +437,8 @@ public class PlayerMovement : MonoBehaviour
     public void updateDirection(int dir)
     {
         direction = dir;
-
-        pawnReflectionSprite.sprite = pawnSprite.sprite = spriteSheet[direction * frames + frame];
+        pawnSprite.sprite = spriteSheet[direction * frames + frame];
+        pawnReflectionSprite.sprite = pawnSprite.sprite;
 
         if (mount.enabled)
         {
@@ -432,7 +449,7 @@ public class PlayerMovement : MonoBehaviour
     private void updateMount(bool enabled, string spriteName = "")
     {
         mount.enabled = enabled;
-        if (!mount.enabled)
+        if (!string.IsNullOrWhiteSpace(spriteName))
         {
             mountSpriteSheet = Resources.LoadAll<Sprite>("PlayerSprites/" + spriteName);
             mount.sprite = mountSpriteSheet[direction];
@@ -517,7 +534,7 @@ public class PlayerMovement : MonoBehaviour
         if (PlayerMovement.player.busyWith == caller)
         {
             pauseInput();
-            Debug.Log("Busy with " + PlayerMovement.player.busyWith);
+            GlobalVariables.global.debug("Busy with " + PlayerMovement.player.busyWith);
             return true;
         }
         return false;
@@ -543,7 +560,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("Busy with " + PlayerMovement.player.busyWith);
+            GlobalVariables.global.debug("Busy with " + PlayerMovement.player.busyWith);
         }
     }
 
@@ -561,7 +578,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void unpauseInput()
     {
-        Debug.Log("unpaused");
+        GlobalVariables.global.debug("unpaused");
         canInput = true;
     }
 
@@ -642,16 +659,23 @@ public class PlayerMovement : MonoBehaviour
                         destinationMap = mapHit.collider.gameObject.GetComponent<MapCollider>();
                     }
                 }
-                else if ((bridgeHit.collider != null && checkForBridge) || mapHit.collider != null)
+                else if ((bridgeHit.collider != null && checkForBridge))
                 {
                     //if both have been found
                     break; //stop searching
                 }
                 //if bridge has not been found yet
-                if (bridgeHit.collider == null && checkForBridge && hitCollider.collider.gameObject.GetComponent<BridgeHandler>() != null)
+                if (bridgeHit.collider == null && checkForBridge)
                 {
                     //if a collision's gameObject has a BridgeHandler, it is a bridge.
-                    bridgeHit = hitCollider;
+                    if (hitCollider.collider.gameObject.GetComponent<BridgeHandler>() != null)
+                    {
+                        bridgeHit = hitCollider;
+                    }
+                }
+                else if (mapHit.collider != null)
+                {
+                    break;
                 }
             }
         }
@@ -676,13 +700,16 @@ public class PlayerMovement : MonoBehaviour
         float yDistance = Mathf.Abs((transform.position.y + movement.y) - transform.position.y);
         yDistance = Mathf.Round(yDistance * 100f) / 100f;
 
-        //Debug.Log("currentSlope: "+currentSlope+", destinationSlope: "+destinationSlope+", yDistance: "+yDistance);
+        //GlobalVariables.global.debug("currentSlope: "+currentSlope+", destinationSlope: "+destinationSlope+", yDistance: "+yDistance);
 
         //if either slope is greater than 1 it is too steep.
-        if ((currentSlope <= 1 && destinationSlope <= 1) && (yDistance <= currentSlope || yDistance <= destinationSlope))
+        if (currentSlope <= 1 && destinationSlope <= 1)
         {
             //if yDistance is greater than both slopes there is a vertical wall between them
-            return movement;
+            if (yDistance <= currentSlope || yDistance <= destinationSlope)
+            {
+                return movement;
+            }
         }
         return Vector3.zero;
     }
@@ -703,16 +730,16 @@ public class PlayerMovement : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(transform.position + movement + new Vector3(0, 0.5f, 0), 0.4f);
 
             for (int i = 0; i < hitColliders.Length; i++)
-            {
-                if (hitColliders[i].name.ToLowerInvariant().Contains("_object"))
                 {
-                    objectCollider = hitColliders[i];
+                    if (hitColliders[i].name.ToLowerInvariant().Contains("_object"))
+                    {
+                        objectCollider = hitColliders[i];
+                    }
+                    else if (hitColliders[i].name.ToLowerInvariant().Contains("_transparent"))
+                    {
+                        transparentCollider = hitColliders[i];
+                    }
                 }
-                else if (hitColliders[i].name.ToLowerInvariant().Contains("_transparent"))
-                {
-                    transparentCollider = hitColliders[i];
-                }
-            }
 
             if (objectCollider != null)
             {
@@ -742,7 +769,7 @@ public class PlayerMovement : MonoBehaviour
                             updateAnimation("walk", walkFPS);
                             speed = walkSpeed;
                             surfing = false;
-                            StartCoroutine("dismount");
+                            StartCoroutine(dismount());
                             BgmHandler.main.PlayMain(accessedAudio, accessedAudioLoopStartSamples);
                         }
 
@@ -764,7 +791,15 @@ public class PlayerMovement : MonoBehaviour
                                 MapName.display(accessedMapSettings.mapNameBoxTexture, accessedMapSettings.mapName,
                                     accessedMapSettings.mapNameColor);
                             }
-                            Debug.Log(destinationMap.name + "   " + accessedAudio.name);
+                            GlobalVariables.global.debug(destinationMap.name + "   " + accessedAudio.name);
+                            #if UNITY_STANDALONE_WIN
+                            if(accessedMapSettings.discordDetails != null && accessedMapSettings.discordDetails != "")
+                            {
+								GlobalVariables.global.SetRPCLargeImageKey(accessedMapSettings.discordImageKey, accessedMapSettings.mapName);
+                                GlobalVariables.global.SetRPCDetails(accessedMapSettings.discordDetails);
+                            }
+                            GlobalVariables.global.UpdatePresence();
+                            #endif
                         }
 
                         if (transparentCollider != null)
@@ -807,7 +842,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //increment increases slowly to 1 over the frames
                 increment += (1f / speed) * Time.deltaTime;
-                    //speed is determined by how many squares are crossed in one second
+                //speed is determined by how many squares are crossed in one second
                 if (increment > 1)
                 {
                     increment = 1;

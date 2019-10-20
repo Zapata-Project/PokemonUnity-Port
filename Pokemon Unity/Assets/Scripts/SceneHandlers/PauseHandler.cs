@@ -41,7 +41,7 @@ public class PauseHandler : MonoBehaviour
     private RotatableGUIItem targetIcon;
 
     private bool running;
-
+    private Coroutine animIcon = null;
     void Awake()
     {
         Dialog = GameObject.Find("GUI").GetComponent<DialogBoxHandler>();
@@ -237,8 +237,9 @@ public class PauseHandler : MonoBehaviour
 
         if (targetIcon != null)
         {
-            StopCoroutine("animActiveIcon");
-            StartCoroutine("animActiveIcon");
+            if (animIcon != null)
+                StopCoroutine(animIcon);
+            animIcon = StartCoroutine(animActiveIcon());
             //pulse
             float increment = 0f;
             float pulseSpeed = 0.15f;
@@ -332,228 +333,193 @@ public class PauseHandler : MonoBehaviour
     {
         selectedIcon = 0;
         unhideIcons();
-        StartCoroutine("updateIcon", selectedIcon);
+        StartCoroutine(updateIcon(selectedIcon));
         SfxHandler.Play(openClip);
-        yield return StartCoroutine("openAnim");
+        yield return StartCoroutine(openAnim());
         running = true;
         while (running)
         {
-            if (selectedIcon == 0)
+            if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
             {
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
-                    selectedIcon = 2;
-                    StartCoroutine("updateIcon", selectedIcon);
-                    SfxHandler.Play(selectClip);
-                }
-                else if (Input.GetAxisRaw("Horizontal") < 0)
-                {
-                    selectedIcon = 1;
-                    StartCoroutine("updateIcon", selectedIcon);
-                    SfxHandler.Play(selectClip);
-                }
-                else if (Input.GetAxisRaw("Vertical") < 0)
-                {
-                    selectedIcon = 5;
-                    StartCoroutine("updateIcon", selectedIcon);
-                    SfxHandler.Play(selectClip);
-                }
-                else if (Input.GetAxisRaw("Horizontal") > 0)
-                {
-                    selectedIcon = 3;
-                    StartCoroutine("updateIcon", selectedIcon);
-                    SfxHandler.Play(selectClip);
-                }
-            }
-            else
-            {
-                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    if (selectedIcon > 3)
-                    {
+                    if (selectedIcon == 0)
+                        selectedIcon = 2;
+                    else if (selectedIcon > 3)
                         selectedIcon -= 3;
-                        StartCoroutine("updateIcon", selectedIcon);
-                        SfxHandler.Play(selectClip);
-                        yield return new WaitForSeconds(0.2f);
-                    }
-                }
-                else if (Input.GetAxisRaw("Horizontal") > 0)
-                {
-                    if (selectedIcon != 3 && selectedIcon != 6)
-                    {
-                        selectedIcon += 1;
-                        StartCoroutine("updateIcon", selectedIcon);
-                        SfxHandler.Play(selectClip);
-                        yield return new WaitForSeconds(0.2f);
-                    }
-                }
-                else if (Input.GetAxisRaw("Vertical") < 0)
-                {
-                    if (selectedIcon < 4)
-                    {
-                        selectedIcon += 3;
-                        StartCoroutine("updateIcon", selectedIcon);
-                        SfxHandler.Play(selectClip);
-                        yield return new WaitForSeconds(0.2f);
-                    }
                 }
                 else if (Input.GetAxisRaw("Horizontal") < 0)
                 {
+                    if (selectedIcon == 0)
+                        selectedIcon = 1;
                     if (selectedIcon != 1 && selectedIcon != 4)
-                    {
                         selectedIcon -= 1;
-                        StartCoroutine("updateIcon", selectedIcon);
-                        SfxHandler.Play(selectClip);
-                        yield return new WaitForSeconds(0.2f);
-                    }
                 }
-                else if (Input.GetButton("Select"))
+                else if (Input.GetAxisRaw("Vertical") < 0)
                 {
-                    if (selectedIcon == 1)
+                    if (selectedIcon == 0)
+                        selectedIcon = 5;
+                    if (selectedIcon < 4)
+                        selectedIcon += 3;
+                }
+                else if (Input.GetAxisRaw("Horizontal") > 0)
+                {
+                    if (selectedIcon == 0)
+                        selectedIcon = 3;
+                    else if (selectedIcon != 3 && selectedIcon != 6)
+                        selectedIcon += 1;
+                }
+                StartCoroutine(updateIcon(selectedIcon));
+                SfxHandler.Play(selectClip);
+                yield return new WaitForSeconds(0.2f);
+            }
+            else if (Input.GetButton("Select"))
+            {
+                if (selectedIcon == 1)
+                {
+                    //Pokedex
+                    GlobalVariables.global.debug("Pokédex not yet implemented");
+                    yield return new WaitForSeconds(0.2f);
+                }
+                else if (selectedIcon == 2)
+                {
+                    //Party
+                    SfxHandler.Play(selectClip);
+                    //StartCoroutine(fadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
+                    hideIcons();
+
+                    yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Party.gameObject));
+
+                    unhideIcons();
+                    //StartCoroutine(unfadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
+                }
+                else if (selectedIcon == 3)
+                {
+                    //Bag
+                    SfxHandler.Play(selectClip);
+                    //StartCoroutine(fadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
+                    hideIcons();
+
+                    yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Bag.gameObject));
+
+                    unhideIcons();
+                    //StartCoroutine(unfadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
+                }
+                else if (selectedIcon == 4)
+                {
+                    //TrainerCard
+                    SfxHandler.Play(selectClip);
+                    //StartCoroutine(fadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
+                    hideIcons();
+
+                    yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Trainer.gameObject));
+
+                    unhideIcons();
+                    //StartCoroutine(unfadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
+                }
+                else if (selectedIcon == 5)
+                {
+                    //Save
+                    saveDataDisplay.gameObject.SetActive(true);
+                    saveDataDisplay.texture =
+                        Resources.Load<Texture>("Frame/choice" + PlayerPrefs.GetInt("frameStyle"));
+                    iconPokedex.hide = true; //hide this icon as it is in the way
+                    int badgeTotal = 0;
+                    for (int i = 0; i < 12; i++)
                     {
-                        //Pokedex
-                        Debug.Log("Pokédex not yet implemented");
-                        yield return new WaitForSeconds(0.2f);
-                    }
-                    else if (selectedIcon == 2)
-                    {
-                        //Party
-                        SfxHandler.Play(selectClip);
-                        //StartCoroutine(fadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
-                        hideIcons();
-
-                        yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Party.gameObject));
-
-                        unhideIcons();
-                        //StartCoroutine(unfadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
-                    }
-                    else if (selectedIcon == 3)
-                    {
-                        //Bag
-                        SfxHandler.Play(selectClip);
-                        //StartCoroutine(fadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
-                        hideIcons();
-
-                        yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Bag.gameObject));
-
-                        unhideIcons();
-                        //StartCoroutine(unfadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
-                    }
-                    else if (selectedIcon == 4)
-                    {
-                        //TrainerCard
-                        SfxHandler.Play(selectClip);
-                        //StartCoroutine(fadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
-                        hideIcons();
-
-                        yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Trainer.gameObject));
-
-                        unhideIcons();
-                        //StartCoroutine(unfadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
-                    }
-                    else if (selectedIcon == 5)
-                    {
-                        //Save
-                        saveDataDisplay.gameObject.SetActive(true);
-                        saveDataDisplay.texture =
-                            Resources.Load<Texture>("Frame/choice" + PlayerPrefs.GetInt("frameStyle"));
-                        iconPokedex.hide = true; //hide this icon as it is in the way
-                        int badgeTotal = 0;
-                        for (int i = 0; i < 12; i++)
+                        if (SaveData.currentSave.gymsBeaten[i])
                         {
-                            if (SaveData.currentSave.gymsBeaten[i])
-                            {
-                                badgeTotal += 1;
-                            }
+                            badgeTotal += 1;
                         }
-                        string playerTime = "" + SaveData.currentSave.playerMinutes;
-                        if (playerTime.Length == 1)
-                        {
-                            playerTime = "0" + playerTime;
-                        }
-                        playerTime = SaveData.currentSave.playerHours + " : " + playerTime;
+                    }
+                    string playerTime = "" + SaveData.currentSave.playerMinutes;
+                    if (playerTime.Length == 1)
+                    {
+                        playerTime = "0" + playerTime;
+                    }
+                    playerTime = SaveData.currentSave.playerHours + " : " + playerTime;
 
-                        mapName.text = PlayerMovement.player.accessedMapSettings.mapName;
-                        dataText.text = SaveData.currentSave.playerName + "\n" +
-                                        badgeTotal + "\n" +
-                                        "0" + "\n" + //pokedex not yet implemented
-                                        playerTime;
-                        mapNameShadow.text = mapName.text;
-                        dataTextShadow.text = dataText.text;
+                    mapName.text = PlayerMovement.player.accessedMapSettings.mapName;
+                    dataText.text = SaveData.currentSave.playerName + "\n" +
+                                    badgeTotal + "\n" +
+                                    "0" + "\n" + //pokedex not yet implemented
+                                    playerTime;
+                    mapNameShadow.text = mapName.text;
+                    dataTextShadow.text = dataText.text;
 
-                        Dialog.drawDialogBox();
-                        yield return StartCoroutine(Dialog.drawText("Would you like to save the game?"));
-                        Dialog.drawChoiceBoxNo();
-                        yield return new WaitForSeconds(0.2f);
-                        yield return StartCoroutine(Dialog.choiceNavigate(0));
-                        int chosenIndex = Dialog.chosenIndex;
-                        if (chosenIndex == 1)
-                        {
-                            //update save file
-                            Dialog.undrawChoiceBox();
-                            Dialog.drawDialogBox();
-
-                            SaveData.currentSave.levelName = Application.loadedLevelName;
-                            SaveData.currentSave.playerPosition = new SeriV3(PlayerMovement.player.transform.position);
-                            SaveData.currentSave.playerDirection = PlayerMovement.player.direction;
-                            SaveData.currentSave.mapName = PlayerMovement.player.accessedMapSettings.mapName;
-
-                            NonResettingHandler.saveDataToGlobal();
-
-                            SaveLoad.Save();
-
-                            yield return
-                                StartCoroutine(Dialog.drawText(SaveData.currentSave.playerName + " saved the game!"));
-                            while (!Input.GetButtonDown("Select") && !Input.GetButtonDown("Back"))
-                            {
-                                yield return null;
-                            }
-                        }
-                        Dialog.undrawDialogBox();
+                    Dialog.drawDialogBox();
+                    yield return StartCoroutine(Dialog.drawText("Would you like to save the game?"));
+                    Dialog.drawChoiceBoxNo();
+                    yield return new WaitForSeconds(0.2f);
+                    yield return StartCoroutine(Dialog.choiceNavigate(0));
+                    int chosenIndex = Dialog.chosenIndex;
+                    if (chosenIndex == 1)
+                    {
+                        //update save file
                         Dialog.undrawChoiceBox();
-                        iconPokedex.hide = false;
-                        saveDataDisplay.gameObject.SetActive(false);
-                        yield return new WaitForSeconds(0.2f);
-                    }
-                    else if (selectedIcon == 6)
-                    {
-                        //Settings
-                        SfxHandler.Play(selectClip);
-                        //StartCoroutine(fadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
-                        hideIcons();
+                        Dialog.drawDialogBox();
 
-                        yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Settings.gameObject));
+                        SaveData.currentSave.levelName = Application.loadedLevelName;
+                        SaveData.currentSave.playerPosition = new SeriV3(PlayerMovement.player.transform.position);
+                        SaveData.currentSave.playerDirection = PlayerMovement.player.direction;
+                        SaveData.currentSave.mapName = PlayerMovement.player.accessedMapSettings.mapName;
 
-                        unhideIcons();
-                        //StartCoroutine(unfadeIcons(0.4f));
-                        //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
-                        yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
+                        NonResettingHandler.saveDataToGlobal();
+
+                        SaveLoad.Save();
+
+                        yield return
+                            StartCoroutine(Dialog.drawText(SaveData.currentSave.playerName + " saved the game!"));
+                        while (!Input.GetButtonDown("Select") && !Input.GetButtonDown("Back"))
+                        {
+                            yield return null;
+                        }
                     }
+                    Dialog.undrawDialogBox();
+                    Dialog.undrawChoiceBox();
+                    iconPokedex.hide = false;
+                    saveDataDisplay.gameObject.SetActive(false);
+                    yield return new WaitForSeconds(0.2f);
+                }
+                else if (selectedIcon == 6)
+                {
+                    //Settings
+                    SfxHandler.Play(selectClip);
+                    //StartCoroutine(fadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
+                    hideIcons();
+
+                    yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Settings.gameObject));
+
+                    unhideIcons();
+                    //StartCoroutine(unfadeIcons(0.4f));
+                    //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
+                    yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
                 }
             }
+
             if (Input.GetButton("Start") || Input.GetButton("Back"))
             {
                 running = false;
             }
-
             yield return null;
         }
 
-        yield return StartCoroutine("closeAnim");
+
+        yield return StartCoroutine(closeAnim());
 
         this.gameObject.SetActive(false);
     }

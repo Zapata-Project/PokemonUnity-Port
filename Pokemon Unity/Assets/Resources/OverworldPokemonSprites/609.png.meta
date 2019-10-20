@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 92f75108860cef54d8d3a72d68357ae1
-timeCreated: 1472527236
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: 609_0
@@ -12,14 +10,17 @@ TextureImporter:
     21300010: 609_5
     21300012: 609_6
     21300014: 609_7
-  serializedVersion: 2
+  externalObjects: {}
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -28,37 +29,59 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 7
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
   maxTextureSize: 128
   textureSettings:
+    serializedVersion: 2
     filterMode: 0
     aniso: -1
-    mipBias: -1
-    wrapMode: 1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 128
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: 609_0
+    - serializedVersion: 2
+      name: 609_0
       rect:
         serializedVersion: 2
         x: 0
@@ -68,18 +91,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -2, y: 32}
-        - {x: -5, y: 29}
-        - {x: -16, y: 19}
-        - {x: -16, y: 8}
-        - {x: -5, y: 0}
-        - {x: 3, y: 0}
-        - {x: 13, y: 5}
-        - {x: 15, y: 11}
-        - {x: 15, y: 18}
-        - {x: -1, y: 32}
-    - name: 609_1
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f23f2c882a9fca949b95261bd1a1bf47
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 609_1
       rect:
         serializedVersion: 2
         x: 32
@@ -89,18 +111,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 1, y: 32}
-        - {x: -4, y: 32}
-        - {x: -15, y: 19}
-        - {x: -15, y: 7}
-        - {x: -5, y: 0}
-        - {x: 3, y: 0}
-        - {x: 13, y: 4}
-        - {x: 14, y: 9}
-        - {x: 14, y: 15}
-        - {x: 4, y: 29}
-    - name: 609_2
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ed74a9852f83744fa921d0dd2d099da
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 609_2
       rect:
         serializedVersion: 2
         x: 0
@@ -110,18 +131,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 3, y: 32}
-        - {x: -5, y: 32}
-        - {x: -14, y: 20}
-        - {x: -14, y: 10}
-        - {x: -13, y: 8}
-        - {x: -2, y: 0}
-        - {x: 2, y: 0}
-        - {x: 7, y: 6}
-        - {x: 7, y: 22}
-        - {x: 5, y: 30}
-    - name: 609_3
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2ce893be19363c4186d63e8cb3eefb1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 609_3
       rect:
         serializedVersion: 2
         x: 32
@@ -131,17 +151,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -4, y: 32}
-        - {x: -8, y: 31}
-        - {x: -13, y: 16}
-        - {x: -13, y: 6}
-        - {x: -3, y: 0}
-        - {x: 5, y: 0}
-        - {x: 7, y: 1}
-        - {x: 7, y: 28}
-        - {x: 1, y: 32}
-    - name: 609_4
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: caf74ccc9f86c664faf31077cc57e495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 609_4
       rect:
         serializedVersion: 2
         x: 0
@@ -151,18 +171,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -2, y: 32}
-        - {x: -5, y: 29}
-        - {x: -16, y: 19}
-        - {x: -16, y: 8}
-        - {x: -5, y: 0}
-        - {x: 3, y: 0}
-        - {x: 13, y: 5}
-        - {x: 15, y: 11}
-        - {x: 15, y: 18}
-        - {x: -1, y: 32}
-    - name: 609_5
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13461b8e99a8c6d468f50f3871a25d8c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 609_5
       rect:
         serializedVersion: 2
         x: 32
@@ -172,18 +191,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 1, y: 32}
-        - {x: -4, y: 32}
-        - {x: -15, y: 19}
-        - {x: -15, y: 7}
-        - {x: -5, y: 0}
-        - {x: 3, y: 0}
-        - {x: 13, y: 4}
-        - {x: 14, y: 9}
-        - {x: 14, y: 15}
-        - {x: 4, y: 29}
-    - name: 609_6
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a729455f56c36e644a69a80dd71ea78f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 609_6
       rect:
         serializedVersion: 2
         x: 0
@@ -193,18 +211,17 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -1, y: 32}
-        - {x: -5, y: 30}
-        - {x: -7, y: 23}
-        - {x: -7, y: 6}
-        - {x: -3, y: 0}
-        - {x: 4, y: 0}
-        - {x: 12, y: 5}
-        - {x: 14, y: 11}
-        - {x: 14, y: 18}
-        - {x: 2, y: 32}
-    - name: 609_7
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d986df89124236439f91b9af39dbe61
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 609_7
       rect:
         serializedVersion: 2
         x: 32
@@ -214,16 +231,26 @@ TextureImporter:
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -7, y: 22}
-        - {x: -7, y: 6}
-        - {x: -3, y: 0}
-        - {x: 13, y: 0}
-        - {x: 13, y: 32}
-        - {x: -1, y: 32}
-        - {x: -6, y: 26}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d54aeeb852ee9ad4ca9a62391c5c94b3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

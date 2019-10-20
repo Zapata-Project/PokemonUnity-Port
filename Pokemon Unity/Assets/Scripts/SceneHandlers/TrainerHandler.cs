@@ -329,7 +329,7 @@ public class TrainerHandler : MonoBehaviour
             timeMinute.text = "0" + timeMinute.text;
         }
         timeMinuteShadow.text = timeMinute.text;
-        adventureData.text = SaveData.currentSave.fileCreationDate;
+        adventureData.text = SaveData.currentSave.fileCreationDate;//.Value.ToString("MMM d, yyyy");
         adventureDataShadow.text = adventureData.text;
 
         for (int i = 0; i < 12; i++)
@@ -430,7 +430,7 @@ public class TrainerHandler : MonoBehaviour
                 if (SaveData.currentSave.gymsBeaten[currentBadge])
                 {
                     GLBeatenBox.gameObject.SetActive(true);
-                    GLBeatenData.text = SaveData.currentSave.gymsBeatTime[currentBadge];
+                    GLBeatenData.text = SaveData.currentSave.gymsBeatTime[currentBadge].Value.ToString("MMM d, yyyy");
                 }
                 else
                 {

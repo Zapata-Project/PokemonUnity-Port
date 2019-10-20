@@ -76,6 +76,16 @@ public class DayNightCycle : MonoBehaviour
 
     void Update()
     {
+        if (SaveData.currentSave.getCVariable("indoors") == 1)
+        {
+            lightSource.enabled = false;
+            RenderSettings.ambientLight = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            lightSource.enabled = true;
+        }
+
         if (debugCustomTime)
         {
             customTime += (Time.deltaTime / 3600f) * customTimeScale;
@@ -119,7 +129,7 @@ public class DayNightCycle : MonoBehaviour
             {
                 lightSource.color = new Color(r, g, b, 1) * filter;
             } //set light to be appropriately between the two points.
-            if (modifyAmbientLight)
+            if (modifyAmbientLight && SaveData.currentSave.getCVariable("indoors") == 0)
             {
                 RenderSettings.ambientLight = lightSource.color;
             }

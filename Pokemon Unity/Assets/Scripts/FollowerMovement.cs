@@ -98,7 +98,7 @@ public class FollowerMovement : MonoBehaviour
         }
         transform.position = startPosition;
         changeFollower(followerIndex);
-        StartCoroutine("animateSprite");
+        StartCoroutine(animateSprite());
     }
 
     public IEnumerator move(Vector3 destination, float sentSpeed)
@@ -167,7 +167,7 @@ public class FollowerMovement : MonoBehaviour
 
     public IEnumerator withdrawToBall()
     {
-        StopCoroutine("animateSprite");
+        StopCoroutine(animateSprite());
         canMove = false;
         followerLight.enabled = false;
         sRenderer.sprite = pokeBall;
@@ -194,7 +194,7 @@ public class FollowerMovement : MonoBehaviour
         sLReflectionRenderer.sprite = null;
         hide = true;
         transform.position = Player.transform.position;
-        StartCoroutine("animateSprite");
+        StartCoroutine(animateSprite());
     }
 
 

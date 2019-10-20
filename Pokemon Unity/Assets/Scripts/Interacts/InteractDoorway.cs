@@ -18,6 +18,7 @@ public class InteractDoorway : MonoBehaviour
     public bool isLocked = false;
     public bool hasLight = false;
     public bool dontFadeMusic = false;
+    public bool indoorMap = false;
 
     private Vector3 initPosition;
     private Quaternion initRotation;
@@ -220,6 +221,14 @@ public class InteractDoorway : MonoBehaviour
                 transform.localPosition = initPosition;
                 transform.localRotation = initRotation;
                 transform.localScale = initScale;
+
+                //set player variable so lighting is fixed
+                if(indoorMap) {
+                    SaveData.currentSave.setCVariable("indoors",1);
+                } else {
+                    SaveData.currentSave.setCVariable("indoors",0);
+                }
+                
 
                 if (!string.IsNullOrEmpty(transferScene))
                 {

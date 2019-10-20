@@ -89,7 +89,7 @@ public class NPCHandler : MonoBehaviour
 
         exclaim.SetActive(false);
 
-        StartCoroutine("animateSprite");
+        StartCoroutine(animateSprite());
 
 
         //Check current map
@@ -116,17 +116,17 @@ public class NPCHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("no map found for: " + gameObject.name);
+            GlobalVariables.global.debug("no map found for: " + gameObject.name);
         }
 
 
         if (npcBehaviour == NPCBehaviour.Walk)
         {
-            StartCoroutine("walkAtRandom");
+            StartCoroutine(walkAtRandom());
         }
         else if (npcBehaviour == NPCBehaviour.Patrol)
         {
-            StartCoroutine("patrolAround");
+            StartCoroutine(patrolAround());
         }
     }
 

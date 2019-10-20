@@ -25,7 +25,7 @@ public static class GlobalSaveManager
     public static void RegisterPlayer(UnityEngine.GameObject player)
     {
         Player = player;
-        UnityEngine.Debug.Log("Registered Player.");
+        GlobalVariables.global.debug("Registered Player.");
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public static class GlobalSaveManager
     {
         EventSaves.Add(customEvent);
         EventSaves = EventSaves.OrderBy(x => x.EventTime).ToList();
-        UnityEngine.Debug.Log(customEvent.ToString());
+        GlobalVariables.global.debug(customEvent.ToString());
     }
 
     /// <summary>
@@ -79,19 +79,19 @@ public static class GlobalSaveManager
             FileStream file = File.Open(saveLocation + @"Save" + saveAmount.ToString() + ".pku", FileMode.OpenOrCreate, FileAccess.Write);
             bf.Serialize(file, DataToSave);
             file.Close();
-            UnityEngine.Debug.Log("Save file created.");
+            GlobalVariables.global.debug("Save file created.");
         }
         catch(Exception)
         {
-            UnityEngine.Debug.Log("Pokemon Unity save directory does not exist, creating new one...");
+            GlobalVariables.global.debug("Pokemon Unity save directory does not exist, creating new one...");
             Directory.CreateDirectory(saveLocation.Substring(0, saveLocation.Length -1));
-            UnityEngine.Debug.Log("Trying to save again...");
+            GlobalVariables.global.debug("Trying to save again...");
 
             FileStream file = File.Open(saveLocation + @"Save" + (Directory.GetFiles(saveLocation, "*pku", SearchOption.TopDirectoryOnly).Length).ToString() + ".pku", FileMode.OpenOrCreate, FileAccess.Write);
             bf.Serialize(file, DataToSave);
             file.Close();
 
-            UnityEngine.Debug.Log("Save file created.");
+            GlobalVariables.global.debug("Save file created.");
         }
     }
 
@@ -155,7 +155,7 @@ public static class GlobalSaveManager
         }
         catch(FileNotFoundException)
         {
-            UnityEngine.Debug.Log("Couldn't find \"Save" + saveIndex + ".pku\".");
+            GlobalVariables.global.debug("Couldn't find \"Save" + saveIndex + ".pku\".");
         }
     }
 
@@ -190,7 +190,7 @@ public static class GlobalSaveManager
                         }
                         catch (Exception e)
                         {
-                            UnityEngine.Debug.Log(e.ToString());
+                            GlobalVariables.global.debug(e.ToString());
                         }
                     }
                 }

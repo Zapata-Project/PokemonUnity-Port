@@ -21,7 +21,7 @@ public class MapCompiler : EditorWindow
         }
         Selection.activeGameObject.transform.GetComponent<MeshFilter>().mesh = null;
         MeshFilter[] meshFilters = Selection.activeGameObject.transform.GetComponentsInChildren<MeshFilter>();
-        Debug.Log(meshFilters.Length);
+        Debug.Log(meshFilters.Length.ToString());
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
         int i = 0;
         while (i < meshFilters.Length) {

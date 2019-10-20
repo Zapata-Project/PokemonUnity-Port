@@ -22,7 +22,7 @@ public static class SaveLoad
             {
                 savedGames[SaveData.currentSave.getFileIndex()] = SaveData.currentSave;
                 BinaryFormatter bf = new BinaryFormatter();
-                FileStream file = File.Create(Application.persistentDataPath + "/playerData.pkud");
+                FileStream file = File.Create(Application.persistentDataPath + "/playerData.pkaz");
                 bf.Serialize(file, SaveLoad.savedGames);
                 file.Close();
             }
@@ -31,11 +31,11 @@ public static class SaveLoad
 
     public static bool Load()
     {
-        Debug.Log(Application.persistentDataPath);
-        if (File.Exists(Application.persistentDataPath + "/playerData.pkud"))
+        GlobalVariables.global.debug(Application.persistentDataPath);
+        if (File.Exists(Application.persistentDataPath + "/playerData.pkaz"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/playerData.pkud", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/playerData.pkaz", FileMode.Open);
             SaveLoad.savedGames = (SaveData[]) bf.Deserialize(file);
             file.Close();
             return true;
@@ -73,10 +73,10 @@ public static class SaveLoad
         bool sGN2 = savedGames[1] == null;
         bool sGN3 = savedGames[2] == null;
 
-        Debug.Log(sGN1.ToString() + ", " + sGN2.ToString() + ", " + sGN3.ToString());
+        GlobalVariables.global.debug(sGN1.ToString() + ", " + sGN2.ToString() + ", " + sGN3.ToString());
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/playerData.pkud");
+        FileStream file = File.Create(Application.persistentDataPath + "/playerData.pkaz");
         bf.Serialize(file, SaveLoad.savedGames);
         file.Close();
     }
