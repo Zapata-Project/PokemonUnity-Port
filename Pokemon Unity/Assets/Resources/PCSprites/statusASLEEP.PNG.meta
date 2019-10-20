@@ -1,11 +1,15 @@
 fileFormatVersion: 2
 guid: 97f4b3528ba54494e9d59c5088ea0ed0
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: statusSLEEP
-    21300002: statusASLEEP
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: statusSLEEP
+  - first:
+      213: 21300002
+    second: statusASLEEP
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -60,7 +64,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 32
     resizeAlgorithm: 0
@@ -71,6 +75,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -78,10 +83,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 3286586a3c4ce324181ac99d3880ff15
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
