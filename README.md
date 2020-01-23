@@ -14,10 +14,6 @@ Using the Pokémon Unity framework, The Zapata Region is a project based on buil
 
 This project is built around Pokémon Unity's legacy code, it is not recommended to build off of this fork as a starting point. Try helping out with Pokémon Unity's new beta framework instead.
 
-## Demo and Downloads
-
-There are demos for Windows, Linux, and Mac zipped in [Releases](https://github.com/superusercode/PokemonUnity/releases)! Please report any bugs if found.
-
 ## Credits
 
 * Framework: [Pokémon Unity Legacy](https://github.com/PokemonUnity/PokemonUnity)
