@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 [System.Serializable]
 public class SaveData
@@ -17,6 +18,9 @@ public class SaveData
     public string levelName;
     public SeriV3 playerPosition;
     public int playerDirection;
+
+    //zapata data
+    public DateTime timeGuyInteraction;
 
 
     //Important player data

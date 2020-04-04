@@ -470,8 +470,8 @@ public class CustomEvent : MonoBehaviour
 
                     int[] IVs = new int[]
                     {
-                        Random.Range(0, 32), Random.Range(0, 32), Random.Range(0, 32),
-                        Random.Range(0, 32), Random.Range(0, 32), Random.Range(0, 32)
+                        UnityEngine.Random.Range(0, 32), UnityEngine.Random.Range(0, 32), UnityEngine.Random.Range(0, 32),
+                        UnityEngine.Random.Range(0, 32), UnityEngine.Random.Range(0, 32), UnityEngine.Random.Range(0, 32)
                     };
                     if (currentEvent.bool1)
                     {
@@ -682,6 +682,10 @@ public class CustomEvent : MonoBehaviour
             case CustomEventDetails.CustomEventType.TeleportGameObject:
                 currentEvent.object0.transform.position = currentEvent.vector3;
                 break;
+            case CustomEventDetails.CustomEventType.Time:
+                currentEvent.time = System.DateTime.Now;
+                SaveData.currentSave.timeGuyInteraction = System.DateTime.Now;
+                break;
         }
     }
 
@@ -732,7 +736,8 @@ public class CustomEventDetails
         SetCVariable, //string0: CVariable name | float0: new value
         LogicCheck, //logic | float0: check value | string0: CVariable name
         TrainerBattle, //object0: trainer script | bool0: allowed to lose | int0: tree to jump to on loss
-        TeleportGameObject //object0: game object | vector3: teleport position
+        TeleportGameObject, //object0: game object | vector3: teleport position
+        Time
     }
 
     public enum Direction
@@ -779,6 +784,7 @@ public class CustomEventDetails
     public bool runSimultaneously;
 
     public Vector3 vector3;
+    public System.DateTime time;
 }
 
 [System.Serializable]

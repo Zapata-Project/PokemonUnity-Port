@@ -38,7 +38,8 @@ public class CustomEventEditor : Editor
         object1_Prop,
         sound_Prop,
         runSimul_Prop,
-        vector3_Prop;
+        vector3_Prop,
+        time_Prop;
 
     private bool interactUnfold = false;
     private bool[] interactTreesUnfold = new bool[1];
@@ -465,6 +466,9 @@ public class CustomEventEditor : Editor
                 eventDescription += (object0_Prop.objectReferenceValue != null)
                     ? "\" " + object0_Prop.objectReferenceValue.name + "\" to "+vector3_Prop.vector3Value.x.ToString()+"X "+vector3_Prop.vector3Value.y.ToString()+"Y "+vector3_Prop.vector3Value.z.ToString()+"Z"
                     : "\"null\" to "+vector3_Prop.vector3Value.x.ToString()+"X "+vector3_Prop.vector3Value.y.ToString()+"Y "+vector3_Prop.vector3Value.z.ToString()+"Z";
+                break;
+            case CustomEventDetails.CustomEventType.Time:
+                eventDescription = "Set TimeGuy time to now";
                 break;
 
             /*case CustomEventDetails.CustomEventType.ReturnToTitle:
