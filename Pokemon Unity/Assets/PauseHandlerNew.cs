@@ -36,10 +36,20 @@ public class PauseHandlerNew : MonoBehaviour
     public Text selectedText;
     public Text selectedTextShadow;
     public Vector3[] selectPositions;
-
+    public Text[] timePDA;
     public bool running;
     private Vector3 sliderPosition = new Vector3(0,-48,0);
     private Vector3 sliderPosition2 = new Vector3(0,-144,0);
+    public Vector3[] sliderPositionsPDA;
+    public bool openRunning = false;
+    public bool closeRunning = false;
+    public GameObject directions;
+    void FixedUpdate()
+    {
+        foreach(Text timeText in timePDA) {
+            timeText.text = System.DateTime.Now.Hour+":"+(System.DateTime.Now.Minute >= 10 ? System.DateTime.Now.Minute.ToString() : "0"+System.DateTime.Now.Minute.ToString());
+        }
+    }
     void Start()
     {
         pauseBottom.rectTransform.anchoredPosition = new Vector3(0,-144f,0);
@@ -53,9 +63,7 @@ public class PauseHandlerNew : MonoBehaviour
         saveDataDisplay.gameObject.SetActive(false);
 
         pda.rectTransform.anchoredPosition = new Vector3(132.03f,-139.84f,0);
-    }
-    void Update()
-    {
+        SaveData.currentSave.setCVariable("NewPause",1);
         if(SaveData.currentSave.getCVariable("NewPause") == 1) {
             pda.gameObject.SetActive(true);
         } else {
@@ -66,35 +74,59 @@ public class PauseHandlerNew : MonoBehaviour
     {
         selectedText.text = text;
         selectedTextShadow.text = text;
+        if(text == "Pokémon Party") {
+            selectedTextPDA.fontSize = 8;
+            selectedTextPDAShadow.fontSize = 8;
+        } else {
+            selectedTextPDA.fontSize = 10;
+            selectedTextPDAShadow.fontSize = 10;
+        }
+        selectedTextPDA.text = text;
+        selectedTextPDAShadow.text = text;
     }
     private IEnumerator openAnim()
     {
         pauseBottom.gameObject.SetActive(true);
         float speed = 250f;
-        while(pauseBottom.rectTransform.anchoredPosition.y < -48f) {
-            pauseBottom.rectTransform.anchoredPosition = Vector3.MoveTowards(pauseBottom.rectTransform.anchoredPosition, sliderPosition, Time.deltaTime * speed);
-            if(SaveData.currentSave.getCVariable("NewPause") == 1) {
-
-            } else {
-                generic.gameObject.SetActive(true);
-                generic.rectTransform.anchoredPosition = Vector3.MoveTowards(generic.rectTransform.anchoredPosition, sliderPosition, Time.deltaTime * speed);
+        openRunning = true;
+        closeRunning = false;
+        if(SaveData.currentSave.getCVariable("NewPause") == 1) {
+            pda.gameObject.SetActive(true);
+            directions.SetActive(true);
+            while(pda.rectTransform.anchoredPosition.y != -30f && openRunning && !closeRunning) {
+                pda.rectTransform.anchoredPosition = Vector3.MoveTowards(pda.rectTransform.anchoredPosition, sliderPositionsPDA[1], Time.deltaTime * speed);
+                yield return null;
             }
-            yield return null;
+        } else {
+            generic.gameObject.SetActive(true);
+            while(pauseBottom.rectTransform.anchoredPosition.y < -48f && openRunning && !closeRunning) {
+                pauseBottom.rectTransform.anchoredPosition = Vector3.MoveTowards(pauseBottom.rectTransform.anchoredPosition, sliderPosition, Time.deltaTime * speed);
+                generic.rectTransform.anchoredPosition = Vector3.MoveTowards(generic.rectTransform.anchoredPosition, sliderPosition, Time.deltaTime * speed);
+                yield return null;
+            }
         }
+        openRunning = false;
     }
     private IEnumerator closeAnim()
     {
+        openRunning = false;
+        closeRunning = true;
         float speed = 200f;
         selectArrow.gameObject.SetActive(false);
-        while(pauseBottom.rectTransform.anchoredPosition.y > -144f) {
-            pauseBottom.rectTransform.anchoredPosition = Vector3.MoveTowards(pauseBottom.rectTransform.anchoredPosition, sliderPosition2, Time.deltaTime * speed);
-            if(SaveData.currentSave.getCVariable("NewPause") == 1) {
-
-            } else {
-                generic.rectTransform.anchoredPosition = Vector3.MoveTowards(generic.rectTransform.anchoredPosition, sliderPosition2, Time.deltaTime * speed);
+        if(SaveData.currentSave.getCVariable("NewPause") == 1) {
+            while(pda.rectTransform.anchoredPosition.y != -140f && !openRunning && closeRunning) {
+                pda.rectTransform.anchoredPosition = Vector3.MoveTowards(pda.rectTransform.anchoredPosition, sliderPositionsPDA[0], Time.deltaTime * speed);
+                yield return null;
             }
-            yield return null;
+        } else {
+            while(pauseBottom.rectTransform.anchoredPosition.y > -144f && closeRunning && !openRunning) {
+                pauseBottom.rectTransform.anchoredPosition = Vector3.MoveTowards(pauseBottom.rectTransform.anchoredPosition, sliderPosition2, Time.deltaTime * speed);
+                generic.rectTransform.anchoredPosition = Vector3.MoveTowards(generic.rectTransform.anchoredPosition, sliderPosition2, Time.deltaTime * speed);
+                yield return null;
+            }
         }
+        generic.gameObject.SetActive(false);
+        closeRunning = false;
     }
     public IEnumerator updateIcon(int index)
     {
@@ -171,6 +203,7 @@ public class PauseHandlerNew : MonoBehaviour
             if(SaveData.currentSave.getCVariable("NewPause") == 1) {
                 if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
                 {
+                    directions.SetActive(false);
                     if (Input.GetAxisRaw("Vertical") > 0)
                     {
                         if (selectedIcon == 0)
@@ -222,7 +255,7 @@ public class PauseHandlerNew : MonoBehaviour
 
                         yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Party.gameObject));
 
-
+                        
                         //StartCoroutine(unfadeIcons(0.4f));
                         //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
                         yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
@@ -238,7 +271,7 @@ public class PauseHandlerNew : MonoBehaviour
 
                         yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Bag.gameObject));
 
-
+                        
                         //StartCoroutine(unfadeIcons(0.4f));
                         //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
                         yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
@@ -254,7 +287,7 @@ public class PauseHandlerNew : MonoBehaviour
 
                         yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Trainer.gameObject));
 
-
+                        
                         //StartCoroutine(unfadeIcons(0.4f));
                         //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
                         yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
@@ -313,7 +346,7 @@ public class PauseHandlerNew : MonoBehaviour
                                 yield return null;
                             }
                         }
-                        //Dialog.UndrawDialogBox();
+                        Dialog.UndrawDialogBox();
                         Dialog.UndrawChoiceBox();
                         saveDataDisplay.gameObject.SetActive(false);
                         yield return new WaitForSeconds(0.2f);
@@ -326,10 +359,10 @@ public class PauseHandlerNew : MonoBehaviour
                         //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
                         yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
                         
-
+                        
                         yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Settings.gameObject));
-
-
+                        
+                        
                         //StartCoroutine(unfadeIcons(0.4f));
                         //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
                         yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
@@ -432,10 +465,12 @@ public class PauseHandlerNew : MonoBehaviour
                         //yield return new WaitForSeconds(sceneTransition.FadeOut(0.4f));
                         yield return StartCoroutine(ScreenFade.main.Fade(false, 0.4f));
                         
-
+                        pauseBottom.gameObject.SetActive(false);
+                        generic.gameObject.SetActive(false);
                         yield return StartCoroutine(runSceneUntilDeactivated(Scene.main.Settings.gameObject));
 
-
+                        pauseBottom.gameObject.SetActive(true);
+                        generic.gameObject.SetActive(true);
                         //StartCoroutine(unfadeIcons(0.4f));
                         //yield return new WaitForSeconds(sceneTransition.FadeIn(0.4f));
                         yield return StartCoroutine(ScreenFade.main.Fade(true, 0.4f));
@@ -459,10 +494,10 @@ public class PauseHandlerNew : MonoBehaviour
     /// Only runs the default scene (no parameters)
     private IEnumerator runSceneUntilDeactivated(GameObject sceneInterface)
     {
+        disableAll();
         sceneInterface.SetActive(true);
         sceneInterface.SendMessage("control");
         yield return new WaitForSeconds(0.05f);
-        disableAll();
         while (sceneInterface.activeSelf)
         {
             yield return null;
@@ -471,7 +506,7 @@ public class PauseHandlerNew : MonoBehaviour
     }
     private void disableAll()
     {
-       setSelectedText("");
+       //setSelectedText("");
        generic.gameObject.SetActive(false);
        pauseBottom.gameObject.SetActive(false);
        selectArrow.gameObject.SetActive(false);
@@ -479,11 +514,11 @@ public class PauseHandlerNew : MonoBehaviour
     }
     private void enableAll()
     {
-       setSelectedText("");
-       selectedIcon = 0;
+       //setSelectedText("");
+       //selectedIcon = 0;
        generic.gameObject.SetActive(true);
        pauseBottom.gameObject.SetActive(true);
-       selectArrow.gameObject.SetActive(false);
+       selectArrow.gameObject.SetActive(true);
        showPDA();
     }
     public void hidePDA()

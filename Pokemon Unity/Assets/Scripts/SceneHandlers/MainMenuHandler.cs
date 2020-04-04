@@ -187,7 +187,7 @@ public class MainMenuHandler : MonoBehaviour
                     newGame = true;
                 }
                 GlobalVariables.global.SetRPCLargeImageKey("newgame","Main Menu");
-                GlobalVariables.global.SetRPCState("Starting a new game...");
+                GlobalVariables.global.SetRPCState("Starting a new game");
 				GlobalVariables.global.UpdatePresence();
                 yield return new WaitForSeconds(1f);
                 Dialog.drawDialogBox();
@@ -227,12 +227,12 @@ public class MainMenuHandler : MonoBehaviour
 
 				GlobalVariables.global.CreateFileData(playerName, gender); 
 
-				GlobalVariables.global.playerPosition = new Vector3(35,-30,12);
+				GlobalVariables.global.playerPosition = new Vector3(41,-30,5);
 				GlobalVariables.global.playerDirection = 2;
 				GlobalVariables.global.fadeIn = true;
                 SaveData.currentSave.setCVariable("indoors",1);
 				GlobalVariables.global.SetRPCLargeImageKey("player_house","Alferez Village");
-                GlobalVariables.global.SetRPCDetails("At home.");
+                GlobalVariables.global.SetRPCDetails("At home");
 				if(PokemonDatabase.getPokemon(SaveData.currentSave.PC.boxes[0][0].getID()).getName() == SaveData.currentSave.PC.boxes[0][0].getName()){
 					GlobalVariables.global.SetRPCState("Follower: " + SaveData.currentSave.PC.boxes[0][0].getName() + " (Level " + SaveData.currentSave.PC.boxes[0][0].getLevel().ToString() + ")");
 				}
@@ -280,11 +280,11 @@ public class MainMenuHandler : MonoBehaviour
     public IEnumerator control()
     {
         yield return StartCoroutine(ScreenFade.main.Fade(true, 0f));
+        GlobalVariables.global.SetRPCLargeImageKey("main_menu","Main Menu");
+        GlobalVariables.global.SetRPCState("In the Main Menu");
+        GlobalVariables.global.UpdatePresence();
         if(!newGame) {
             int fileCount = SaveLoad.getSavedGamesCount();
-            GlobalVariables.global.SetRPCLargeImageKey("main_menu","Main Menu");
-            GlobalVariables.global.SetRPCState("In the Main Menu");
-            GlobalVariables.global.UpdatePresence();
             if (fileCount == 0)
             {
                 updateButton(1);
