@@ -12,10 +12,9 @@ public class BumpLedge : MonoBehaviour
     {
         if (PlayerMovement.player.direction == movementDirection)
         {
-            PlayerMovement.player.pauseInput();
-
+            PlayerMovement.player.setCheckBusyWith(this.gameObject);
             PlayerMovement.player.forceMoveForward(2);
-            PlayerMovement.player.followerScript.canMove = false;
+            //PlayerMovement.player.followerScript.canMove = false;
             if (!PlayerMovement.player.running)
             {
                 yield return new WaitForSeconds(PlayerMovement.player.speed * 0.5f);
@@ -28,9 +27,9 @@ public class BumpLedge : MonoBehaviour
                 yield return new WaitForSeconds(PlayerMovement.player.speed);
             }
             yield return new WaitForSeconds(PlayerMovement.player.speed);
-
-            PlayerMovement.player.followerScript.canMove = true;
-            PlayerMovement.player.unpauseInput();
+        
+            //PlayerMovement.player.followerScript.canMove = true;
+            PlayerMovement.player.unsetCheckBusyWith(this.gameObject);
         }
     }
 }
